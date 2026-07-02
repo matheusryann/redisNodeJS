@@ -21,9 +21,24 @@ app.post("/jobs/email", async (req, res) => {
 });
 
 app.get("/jobs/:jobId", async (req, res) => {
-    return res.json({ok: true})
-})
 
+    const job = await emailQueue.getJob(req.params.jobId);
+    if (!job) {
+        return res.status(404).json({
+            message: "Job not found"
+        });
+    }
+    const state = await job.getState();
+
+    return res.status(200).json({
+        id: job.id,
+        state,
+        name: job.name,
+        data: job.data,
+        results: job.returnvalue,
+        failedReason: job.failedReason,
+    });
+});
 
 app.listen(PORT, () => {
     console.log(`Server is running on  http://localhost:${PORT}`);
