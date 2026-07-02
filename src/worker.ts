@@ -28,5 +28,7 @@ export function startWorker() {
         console.error(`Job ${job?.id} failed!`, error.message);
     });
 
+
+    console.log('Worker started and listening for jobs...');
     return worker;
 }

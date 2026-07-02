@@ -1,6 +1,7 @@
 import "dotenv/config";
 import express from "express";
 import {emailQueue} from "./queue";
+import { startWorker } from "./worker";
 
 const PORT = process.env.PORT ?? 3000;
 const app = express();
@@ -26,4 +27,5 @@ app.get("/jobs/:jobId", async (req, res) => {
 
 app.listen(PORT, () => {
     console.log(`Server is running on  http://localhost:${PORT}`);
+    startWorker();
 })
