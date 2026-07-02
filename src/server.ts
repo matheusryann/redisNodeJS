@@ -1,5 +1,6 @@
 import "dotenv/config";
 import express from "express";
+import {emailQueue} from "./queue";
 
 const PORT = process.env.PORT ?? 3000;
 const app = express();
@@ -9,11 +10,12 @@ app.use(express.json());
 
 app.post("/jobs/email", async (req, res) => {
     const {to, subject, body} = req.body;
-    console.log(`Sending email to ${to} with subject "${subject}" and body "${body}"`);
+    
+    const job = await emailQueue.add("send-email", {to, subject, body});
 
     return res.status(202).json({
         message: "Seu envio está sendo processado",
-        jobId: 123
+        jobId: job.id
     });
 });
 
