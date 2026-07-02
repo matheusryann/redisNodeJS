@@ -12,7 +12,7 @@ app.post("/jobs/email", async (req, res) => {
     console.log(`Sending email to ${to} with subject "${subject}" and body "${body}"`);
 
     return res.status(202).json({
-        message: "Job added to the queue",
+        message: "Seu envio está sendo processado",
         jobId: 123
     });
 });
